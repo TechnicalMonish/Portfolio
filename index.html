@@ -1,0 +1,898 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Monish — Coming Soon</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap");
+      *,
+      *::before,
+      *::after {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      :root {
+        --p: #00f0ff;
+        --s: #ff2d75;
+        --a: #b14aed;
+        --d: #06060e;
+        --g: 0 0 20px rgba(0, 240, 255, 0.5), 0 0 60px rgba(0, 240, 255, 0.2);
+      }
+      body {
+        background: var(--d);
+        color: #fff;
+        font-family: "Rajdhani", sans-serif;
+        overflow: hidden;
+        height: 100vh;
+        cursor: none;
+      }
+      .cur {
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--p);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 10000;
+        transition:
+          transform 0.15s,
+          background 0.15s;
+        mix-blend-mode: difference;
+      }
+      .curd {
+        width: 6px;
+        height: 6px;
+        background: var(--s);
+        border-radius: 50%;
+        position: fixed;
+        pointer-events: none;
+        z-index: 10001;
+      }
+      .cur.active {
+        transform: scale(2.5);
+        background: rgba(0, 240, 255, 0.15);
+      }
+      .curt {
+        position: fixed;
+        pointer-events: none;
+        z-index: 9999;
+        border-radius: 50%;
+        background: var(--p);
+        opacity: 0;
+      }
+      #pc,
+      #gc {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+      }
+      #gc {
+        opacity: 0.05;
+      }
+      .scan {
+        position: fixed;
+        inset: 0;
+        background: repeating-linear-gradient(
+          0deg,
+          transparent,
+          transparent 2px,
+          rgba(0, 240, 255, 0.01) 2px,
+          rgba(0, 240, 255, 0.01) 4px
+        );
+        pointer-events: none;
+        z-index: 1;
+      }
+      .vig {
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(
+          ellipse at center,
+          transparent 40%,
+          rgba(0, 0, 0, 0.8) 100%
+        );
+        pointer-events: none;
+        z-index: 1;
+      }
+      .bo {
+        position: fixed;
+        border-radius: 50%;
+        filter: blur(120px);
+        opacity: 0.1;
+        pointer-events: none;
+        z-index: 0;
+        animation: of 14s ease-in-out infinite;
+      }
+      .bo:nth-child(1) {
+        width: 500px;
+        height: 500px;
+        background: var(--p);
+        top: -10%;
+        left: -10%;
+      }
+      .bo:nth-child(2) {
+        width: 400px;
+        height: 400px;
+        background: var(--s);
+        bottom: -10%;
+        right: -10%;
+        animation-delay: -5s;
+      }
+      .bo:nth-child(3) {
+        width: 350px;
+        height: 350px;
+        background: var(--a);
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        animation-delay: -9s;
+      }
+      @keyframes of {
+        0%,
+        100% {
+          transform: translate(0, 0) scale(1);
+        }
+        33% {
+          transform: translate(30px, -40px) scale(1.1);
+        }
+        66% {
+          transform: translate(-20px, 30px) scale(0.9);
+        }
+      }
+      .kf {
+        position: fixed;
+        font-size: clamp(4rem, 10vw, 10rem);
+        opacity: 0.025;
+        font-weight: 900;
+        pointer-events: none;
+        animation: kd 25s ease-in-out infinite;
+        z-index: 0;
+      }
+      .kf:nth-child(1) {
+        top: 8%;
+        left: 3%;
+        color: var(--p);
+      }
+      .kf:nth-child(2) {
+        top: 55%;
+        right: 3%;
+        color: var(--s);
+        animation-delay: -8s;
+      }
+      .kf:nth-child(3) {
+        bottom: 8%;
+        left: 12%;
+        color: var(--a);
+        animation-delay: -16s;
+      }
+      .kf:nth-child(4) {
+        top: 30%;
+        right: 15%;
+        color: var(--p);
+        animation-delay: -5s;
+      }
+      .kf:nth-child(5) {
+        bottom: 25%;
+        left: 60%;
+        color: var(--s);
+        animation-delay: -12s;
+      }
+      @keyframes kd {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0);
+          opacity: 0.025;
+        }
+        50% {
+          transform: translateY(-40px) rotate(5deg);
+          opacity: 0.05;
+        }
+      }
+      .cd {
+        position: fixed;
+        width: 80px;
+        height: 80px;
+        z-index: 2;
+        pointer-events: none;
+      }
+      .cd::before,
+      .cd::after {
+        content: "";
+        position: absolute;
+        background: var(--p);
+        opacity: 0.15;
+      }
+      .cd.tl {
+        top: 20px;
+        left: 20px;
+      }
+      .cd.tl::before {
+        width: 40px;
+        height: 1px;
+        top: 0;
+        left: 0;
+      }
+      .cd.tl::after {
+        width: 1px;
+        height: 40px;
+        top: 0;
+        left: 0;
+      }
+      .cd.tr {
+        top: 20px;
+        right: 20px;
+      }
+      .cd.tr::before {
+        width: 40px;
+        height: 1px;
+        top: 0;
+        right: 0;
+      }
+      .cd.tr::after {
+        width: 1px;
+        height: 40px;
+        top: 0;
+        right: 0;
+      }
+      .cd.bl {
+        bottom: 20px;
+        left: 20px;
+      }
+      .cd.bl::before {
+        width: 40px;
+        height: 1px;
+        bottom: 0;
+        left: 0;
+      }
+      .cd.bl::after {
+        width: 1px;
+        height: 40px;
+        bottom: 0;
+        left: 0;
+      }
+      .cd.br {
+        bottom: 20px;
+        right: 20px;
+      }
+      .cd.br::before {
+        width: 40px;
+        height: 1px;
+        bottom: 0;
+        right: 0;
+      }
+      .cd.br::after {
+        width: 1px;
+        height: 40px;
+        bottom: 0;
+        right: 0;
+      }
+      .mc {
+        position: relative;
+        z-index: 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        padding: 2rem;
+        text-align: center;
+      }
+      .er {
+        position: absolute;
+        width: clamp(280px, 50vw, 550px);
+        height: clamp(280px, 50vw, 550px);
+        z-index: -1;
+        opacity: 0.15;
+        animation: rr 20s linear infinite;
+      }
+      .er svg {
+        width: 100%;
+        height: 100%;
+      }
+      @keyframes rr {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+      .eri {
+        position: absolute;
+        width: clamp(220px, 40vw, 440px);
+        height: clamp(220px, 40vw, 440px);
+        z-index: -1;
+        opacity: 0.1;
+        animation: rr 15s linear infinite reverse;
+      }
+      .tw {
+        position: relative;
+        margin-bottom: 0.5rem;
+      }
+      .tw::before {
+        content: "モニッシュ";
+        position: absolute;
+        top: -2.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.9rem;
+        letter-spacing: 0.5em;
+        color: var(--p);
+        opacity: 0.25;
+        font-family: sans-serif;
+      }
+      .mt {
+        font-family: "Orbitron", sans-serif;
+        font-size: clamp(3rem, 8vw, 7rem);
+        font-weight: 900;
+        letter-spacing: 0.12em;
+        background: linear-gradient(
+          135deg,
+          var(--p),
+          #fff,
+          var(--a),
+          var(--s),
+          var(--p)
+        );
+        background-size: 400% 400%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: gs 5s ease infinite;
+        position: relative;
+      }
+      .mt::before,
+      .mt::after {
+        content: attr(data-text);
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          135deg,
+          var(--p),
+          #fff,
+          var(--a),
+          var(--s),
+          var(--p)
+        );
+        background-size: 400% 400%;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: gs 5s ease infinite;
+      }
+      .mt::before {
+        animation: g1 4s infinite;
+        clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+      }
+      .mt::after {
+        animation: g2 4s infinite;
+        clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+      }
+      @keyframes gs {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+      @keyframes g1 {
+        0%,
+        88%,
+        100% {
+          transform: translate(0);
+        }
+        90% {
+          transform: translate(10px, -3px);
+        }
+        92% {
+          transform: translate(-10px, 3px);
+        }
+        94% {
+          transform: translate(5px, 1px);
+        }
+      }
+      @keyframes g2 {
+        0%,
+        88%,
+        100% {
+          transform: translate(0);
+        }
+        89% {
+          transform: translate(-8px, 2px);
+        }
+        91% {
+          transform: translate(8px, -2px);
+        }
+        93% {
+          transform: translate(-4px, 3px);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="cur" id="cur"></div>
+    <div class="curd" id="curd"></div>
+    <canvas id="pc"></canvas><canvas id="gc"></canvas>
+    <div class="scan"></div>
+    <div class="vig"></div>
+  </body>
+</html>
+<div class="bo"></div>
+<div class="bo"></div>
+<div class="bo"></div>
+<div class="kf">夢</div>
+<div class="kf">力</div>
+<div class="kf">魂</div>
+<div class="kf">道</div>
+<div class="kf">光</div>
+<div class="cd tl"></div>
+<div class="cd tr"></div>
+<div class="cd bl"></div>
+<div class="cd br"></div>
+<div
+  id="pb"
+  style="
+    position: fixed;
+    inset: 0;
+    z-index: 9998;
+    pointer-events: none;
+    opacity: 0;
+  "
+>
+  <div
+    id="pbi"
+    style="
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--p);
+      transform: translate(-50%, -50%);
+    "
+  ></div>
+</div>
+<button
+  id="st"
+  aria-label="Toggle sound"
+  style="
+    position: fixed;
+    top: 20px;
+    right: 80px;
+    z-index: 100;
+    background: none;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: rgba(255, 255, 255, 0.25);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: none;
+    font-size: 0.9rem;
+    transition: all 0.3s;
+  "
+>
+  ♪
+</button>
+<style>
+  #st:hover {
+    border-color: var(--p);
+    color: var(--p);
+  }
+  .sub {
+    font-size: clamp(0.9rem, 2.2vw, 1.4rem);
+    color: rgba(255, 255, 255, 0.45);
+    letter-spacing: 0.6em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+    overflow: hidden;
+  }
+  .sub span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(30px) rotateX(90deg);
+    animation: rc 0.6s forwards;
+  }
+  @keyframes rc {
+    to {
+      opacity: 1;
+      transform: translateY(0) rotateX(0);
+    }
+  }
+  .tl2 {
+    font-family: "Orbitron", sans-serif;
+    font-size: clamp(0.6rem, 1.1vw, 0.75rem);
+    color: rgba(255, 255, 255, 0.2);
+    letter-spacing: 0.35em;
+    margin-bottom: 2rem;
+    height: 1.5em;
+    position: relative;
+    overflow: hidden;
+  }
+  .tlw {
+    position: absolute;
+    left: 0;
+    right: 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .tlw.act {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .tlw.ex {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  .ss {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+  .sc {
+    font-family: "Orbitron", sans-serif;
+    font-size: clamp(0.55rem, 1vw, 0.7rem);
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    background: linear-gradient(90deg, var(--p), var(--a), var(--s));
+    background-size: 200% 200%;
+    animation: gs 4s ease infinite;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 1.8rem;
+    opacity: 0.7;
+  }
+  .sls {
+    display: flex;
+    gap: clamp(1rem, 3vw, 2rem);
+    justify-content: center;
+    flex-wrap: wrap;
+    align-items: center;
+  }
+  .sl {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    text-decoration: none;
+    color: rgba(255, 255, 255, 0.45);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: none;
+    overflow: hidden;
+  }
+  .sl::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 14px;
+    background: radial-gradient(
+      circle,
+      rgba(0, 240, 255, 0.06),
+      transparent 70%
+    );
+    opacity: 0;
+    transition: opacity 0.4s;
+  }
+  .sl:hover::before {
+    opacity: 1;
+  }
+  .sl:hover {
+    border-color: var(--p);
+    color: #fff;
+    transform: translateY(-6px) scale(1.08);
+    box-shadow: 0 12px 40px rgba(0, 240, 255, 0.12);
+  }
+  .sl svg {
+    width: 22px;
+    height: 22px;
+    fill: currentColor;
+    position: relative;
+    z-index: 1;
+    transition: transform 0.3s;
+  }
+  .sl:hover svg {
+    transform: scale(1.15);
+  }
+  .sl .stt {
+    position: absolute;
+    bottom: -28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+    font-family: "Orbitron", sans-serif;
+    font-size: 0.4rem;
+    letter-spacing: 0.2em;
+    color: var(--p);
+    white-space: nowrap;
+    opacity: 0;
+    transition: all 0.3s;
+    pointer-events: none;
+  }
+  .sl:hover .stt {
+    opacity: 0.7;
+    transform: translateX(-50%) translateY(0);
+  }
+  .sl[data-p="gh"]:hover {
+    border-color: #fff;
+    color: #fff;
+    box-shadow: 0 12px 40px rgba(255, 255, 255, 0.08);
+  }
+  .sl[data-p="gh"]:hover .stt {
+    color: #fff;
+  }
+  .sl[data-p="li"]:hover {
+    border-color: #0a66c2;
+    color: #0a66c2;
+    box-shadow: 0 12px 40px rgba(10, 102, 194, 0.15);
+  }
+  .sl[data-p="li"]:hover .stt {
+    color: #0a66c2;
+  }
+  .sl[data-p="tw"]:hover {
+    border-color: #1da1f2;
+    color: #1da1f2;
+    box-shadow: 0 12px 40px rgba(29, 161, 242, 0.15);
+  }
+  .sl[data-p="tw"]:hover .stt {
+    color: #1da1f2;
+  }
+  .sl[data-p="ig"]:hover {
+    border-color: #e4405f;
+    color: #e4405f;
+    box-shadow: 0 12px 40px rgba(228, 64, 95, 0.15);
+  }
+  .sl[data-p="ig"]:hover .stt {
+    color: #e4405f;
+  }
+  .sl[data-p="yt"]:hover {
+    border-color: #ff0000;
+    color: #ff0000;
+    box-shadow: 0 12px 40px rgba(255, 0, 0, 0.12);
+  }
+  .sl[data-p="yt"]:hover .stt {
+    color: #ff0000;
+  }
+  .sl[data-p="dc"]:hover {
+    border-color: #5865f2;
+    color: #5865f2;
+    box-shadow: 0 12px 40px rgba(88, 101, 242, 0.15);
+  }
+  .sl[data-p="dc"]:hover .stt {
+    color: #5865f2;
+  }
+  .sl[data-p="em"]:hover {
+    border-color: var(--a);
+    color: var(--a);
+    box-shadow: 0 12px 40px rgba(177, 74, 237, 0.15);
+  }
+  .sl[data-p="em"]:hover .stt {
+    color: var(--a);
+  }
+  .sep {
+    width: min(300px, 60vw);
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--p),
+      var(--a),
+      var(--s),
+      transparent
+    );
+    margin-bottom: 1.5rem;
+    opacity: 0.2;
+  }
+  .qs {
+    max-width: 550px;
+    margin-bottom: 1.5rem;
+    position: relative;
+    min-height: 70px;
+  }
+  .qt {
+    font-size: clamp(0.8rem, 1.5vw, 1rem);
+    font-style: italic;
+    color: rgba(255, 255, 255, 0.3);
+    line-height: 1.9;
+    transition:
+      opacity 0.6s,
+      transform 0.6s;
+  }
+  .qsr {
+    font-family: "Orbitron", sans-serif;
+    font-size: 0.5rem;
+    color: var(--a);
+    letter-spacing: 0.2em;
+    margin-top: 0.6rem;
+    transition: opacity 0.6s;
+  }
+  .qc {
+    font-family: "Orbitron", sans-serif;
+    font-size: 0.45rem;
+    color: var(--s);
+    letter-spacing: 0.15em;
+    margin-top: 0.25rem;
+    opacity: 0.6;
+    transition: opacity 0.6s;
+  }
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%) translateY(100px);
+    background: rgba(0, 240, 255, 0.08);
+    border: 1px solid rgba(0, 240, 255, 0.25);
+    padding: 0.8rem 2rem;
+    font-family: "Orbitron", sans-serif;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    color: var(--p);
+    z-index: 9999;
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(12px);
+  }
+  .toast.show {
+    transform: translateX(-50%) translateY(0);
+  }
+  .hint {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-family: "Orbitron", sans-serif;
+    font-size: 0.45rem;
+    color: rgba(255, 255, 255, 0.06);
+    letter-spacing: 0.2em;
+    z-index: 2;
+  }
+  @media (max-width: 600px) {
+    body {
+      cursor: auto;
+    }
+    .cur,
+    .curd,
+    .curt {
+      display: none;
+    }
+    .sl,
+    #st {
+      cursor: pointer;
+    }
+    .bo {
+      filter: blur(80px);
+      opacity: 0.08;
+    }
+    .tw::before {
+      font-size: 0.7rem;
+      top: -2rem;
+    }
+    .sl {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+    }
+    .sl svg {
+      width: 18px;
+      height: 18px;
+    }
+    .sls {
+      gap: 0.8rem;
+    }
+  }
+</style>
+<div class="mc">
+  <div class="er">
+    <svg viewBox="0 0 200 200">
+      <circle
+        cx="100"
+        cy="100"
+        r="95"
+        fill="none"
+        stroke="url(#rg1)"
+        stroke-width=".5"
+        stroke-dasharray="8 12"
+      />
+      <defs>
+        <linearGradient id="rg1">
+          <stop offset="0%" stop-color="var(--p)" />
+          <stop offset="50%" stop-color="var(--a)" />
+          <stop offset="100%" stop-color="var(--s)" />
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+  <div class="eri">
+    <svg viewBox="0 0 200 200">
+      <circle
+        cx="100"
+        cy="100"
+        r="95"
+        fill="none"
+        stroke="url(#rg2)"
+        stroke-width=".3"
+        stroke-dasharray="4 18"
+      />
+      <defs>
+        <linearGradient id="rg2">
+          <stop offset="0%" stop-color="var(--s)" />
+          <stop offset="100%" stop-color="var(--p)" />
+        </linearGradient>
+      </defs>
+    </svg>
+  </div>
+  <div class="tw"><h1 class="mt" data-text="MONISH">MONISH</h1></div>
+  <p class="sub" id="sub"></p>
+  <div class="tl2" id="tl2"></div>
+  <div class="ss">
+    <p class="sc">Meanwhile, let's connect across the multiverse</p>
+    <div class="sls">
+<a href="https://github.com/technicalmonish" target="_blank" rel="noopener" class="sl" data-p="gh" aria-label="GitHub"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 .3a12 12 0 00-3.8 23.38c.6.12.82-.26.82-.58v-2.16c-3.34.73-4.04-1.61-4.04-1.61a3.18 3.18 0 00-1.33-1.76c-1.09-.74.08-.73.08-.73a2.52 2.52 0 011.84 1.24 2.56 2.56 0 003.5 1 2.56 2.56 0 01.76-1.61c-2.67-.3-5.47-1.33-5.47-5.93a4.64 4.64 0 011.24-3.22 4.3 4.3 0 01.12-3.18s1-.33 3.3 1.23a11.38 11.38 0 016 0c2.28-1.55 3.28-1.23 3.28-1.23a4.3 4.3 0 01.12 3.18 4.64 4.64 0 011.24 3.22c0 4.61-2.8 5.63-5.48 5.92a2.87 2.87 0 01.82 2.22v3.29c0 .32.21.7.82.58A12 12 0 0012 .3z"/></svg><span class="stt">GITHUB</span></a>
+<a href="https://linkedin.com/in/technicalmonish" target="_blank" rel="noopener" class="sl" data-p="li" aria-label="LinkedIn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.85-3.04s-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05a3.74 3.74 0 013.37-1.85c3.6 0 4.27 2.37 4.27 5.46zM5.34 7.43a2.06 2.06 0 11-.01-4.13 2.06 2.06 0 01.01 4.13zM7.12 20.45H3.56V9h3.56zM22.22 0H1.77A1.73 1.73 0 000 1.73v20.54A1.73 1.73 0 001.77 24h20.45A1.73 1.73 0 0024 22.27V1.73A1.73 1.73 0 0022.22 0z"/></svg><span class="stt">LINKEDIN</span></a>
+<a href="https://twitter.com/technicalmonish" target="_blank" rel="noopener" class="sl" data-p="tw" aria-label="X"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18.24 2.25h3.31l-7.23 8.26 8.5 11.24H16.17l-5.21-6.82L4.99 21.75H1.68l7.73-8.84L1.25 2.25H8.08l4.71 6.23zm-1.16 17.52h1.83L7.08 4.13H5.12z"/></svg><span class="stt">X / TWITTER</span></a>
+<a href="https://instagram.com/technicalmonish" target="_blank" rel="noopener" class="sl" data-p="ig" aria-label="Instagram"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85C2.38 3.92 3.9 2.38 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.69.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98 1.28.06 1.69.07 4.95.07s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.2-4.35-2.62-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 100 12.32 6.16 6.16 0 000-12.32zM12 16a4 4 0 110-8 4 4 0 010 8zm6.41-11.85a1.44 1.44 0 100 2.88 1.44 1.44 0 000-2.88z"/></svg><span class="stt">INSTAGRAM</span></a>
+<a href="https://youtube.com/@technicalmonish" target="_blank" rel="noopener" class="sl" data-p="yt" aria-label="YouTube"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M23.5 6.19a3.02 3.02 0 00-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 00.5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 002.12 2.14c1.87.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 002.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg><span class="stt">YOUTUBE</span></a>
+<a href="https://discord.gg/technicalmonish" target="_blank" rel="noopener" class="sl" data-p="dc" aria-label="Discord"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.32 4.37a19.8 19.8 0 00-4.89-1.52.07.07 0 00-.08.04c-.21.38-.44.86-.6 1.25a18.27 18.27 0 00-5.49 0 12.64 12.64 0 00-.62-1.25.08.08 0 00-.08-.04 19.74 19.74 0 00-4.89 1.52.07.07 0 00-.03.03C.53 9.05-.32 13.58.1 18.06a.08.08 0 00.03.05 19.9 19.9 0 005.99 3.03.08.08 0 00.08-.03c.46-.63.87-1.3 1.23-1.99a.08.08 0 00-.04-.11 13.1 13.1 0 01-1.87-.9.08.08 0 01-.01-.13c.13-.09.25-.2.37-.29a.07.07 0 01.08-.01c3.93 1.79 8.18 1.79 12.06 0a.07.07 0 01.08.01c.12.1.25.2.37.29a.08.08 0 01-.01.13c-.6.35-1.22.65-1.87.89a.08.08 0 00-.04.11c.36.7.77 1.36 1.23 1.99a.08.08 0 00.08.03 19.84 19.84 0 006-3.03.08.08 0 00.03-.05c.5-5.18-.84-9.67-3.55-13.66a.06.06 0 00-.03-.03zM8.02 15.33c-1.18 0-2.16-1.08-2.16-2.42 0-1.33.96-2.42 2.16-2.42 1.21 0 2.18 1.1 2.16 2.42 0 1.34-.96 2.42-2.16 2.42zm7.97 0c-1.18 0-2.15-1.08-2.15-2.42 0-1.33.95-2.42 2.15-2.42 1.21 0 2.18 1.1 2.16 2.42 0 1.34-.95 2.42-2.16 2.42z"/></svg><span class="stt">DISCORD</span></a>
+<a href="mailto:techmoni2629@gmail.com" class="sl" data-p="em" aria-label="Email"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M1.5 8.67v8.58a3 3 0 003 3h15a3 3 0 003-3V8.67l-8.93 5.49a3 3 0 01-3.14 0L1.5 8.67z"/><path d="M22.5 6.91V6.75a3 3 0 00-3-3h-15a3 3 0 00-3 3v.16l9.71 5.98a1.5 1.5 0 001.58 0L22.5 6.91z"/></svg><span class="stt">EMAIL</span></a>
+</div>
+</div>
+<div class="sep"></div>
+<div class="qs"><p class="qt" id="qt"></p><p class="qsr" id="qsr"></p><p class="qc" id="qc"></p></div>
+</div>
+<div class="hint">↑↑↓↓←→←→</div>
+<div class="toast" id="toast"></div>
+<script>
+const cur=document.getElementById('cur'),curd=document.getElementById('curd');
+let mx=0,my=0,cx=0,cy=0;const td=[];
+for(let i=0;i<12;i++){const d=document.createElement('div');d.className='curt';d.style.width=d.style.height=(8-i*.5)+'px';document.body.appendChild(d);td.push({el:d,x:0,y:0})}
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;curd.style.left=mx-3+'px';curd.style.top=my-3+'px'});
+document.addEventListener('mousedown',()=>cur.classList.add('active'));
+document.addEventListener('mouseup',()=>cur.classList.remove('active'));
+!function ac(){cx+=(mx-cx)*.12;cy+=(my-cy)*.12;cur.style.left=cx-10+'px';cur.style.top=cy-10+'px';let px=mx,py=my;td.forEach((d,i)=>{d.x+=(px-d.x)*(.3-i*.018);d.y+=(py-d.y)*(.3-i*.018);d.el.style.left=d.x-4+'px';d.el.style.top=d.y-4+'px';d.el.style.opacity=.4-i*.03;px=d.x;py=d.y});requestAnimationFrame(ac)}();
+
+const pc=document.getElementById('pc'),px=pc.getContext('2d');let pts=[];
+function rc(){pc.width=innerWidth;pc.height=innerHeight;const g=document.getElementById('gc');g.width=innerWidth;g.height=innerHeight;const c=g.getContext('2d');c.clearRect(0,0,g.width,g.height);c.strokeStyle='rgba(0,240,255,.4)';c.lineWidth=.3;for(let x=0;x<g.width;x+=70){c.beginPath();c.moveTo(x,0);c.lineTo(x,g.height);c.stroke()}for(let y=0;y<g.height;y+=70){c.beginPath();c.moveTo(0,y);c.lineTo(g.width,y);c.stroke()}}
+class P{constructor(){this.r()}r(){this.x=Math.random()*pc.width;this.y=Math.random()*pc.height;this.sz=Math.random()*2+.3;this.sx=(Math.random()-.5)*.4;this.sy=(Math.random()-.5)*.4;this.op=Math.random()*.5+.1;this.h=[185,330,275,50][Math.random()*4|0];this.l=Math.random()*250+100;this.ml=this.l}u(){this.x+=this.sx;this.y+=this.sy;this.l--;const dx=mx-this.x,dy=my-this.y,d=Math.sqrt(dx*dx+dy*dy);if(d<180){this.x+=dx*.008;this.y+=dy*.008;this.op=Math.min(this.op+.015,.9)}if(this.l<=0||this.x<-10||this.x>pc.width+10||this.y<-10||this.y>pc.height+10)this.r()}d(){const a=this.op*(this.l/this.ml);px.beginPath();px.arc(this.x,this.y,this.sz,0,Math.PI*2);px.fillStyle=`hsla(${this.h},100%,70%,${a})`;px.fill();px.beginPath();px.arc(this.x,this.y,this.sz*4,0,Math.PI*2);px.fillStyle=`hsla(${this.h},100%,70%,${a*.1})`;px.fill()}}
+function ip(){pts=Array.from({length:Math.min(140,innerWidth*innerHeight/7000|0)},()=>new P)}
+function dc(){for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<110){px.beginPath();px.moveTo(pts[i].x,pts[i].y);px.lineTo(pts[j].x,pts[j].y);px.strokeStyle=`rgba(0,240,255,${(1-d/110)*.06})`;px.lineWidth=.4;px.stroke()}}}
+!function ap(){px.clearRect(0,0,pc.width,pc.height);pts.forEach(p=>{p.u();p.d()});dc();requestAnimationFrame(ap)}();
+addEventListener('resize',()=>{rc();ip()});rc();ip();
+
+const se=document.getElementById('sub');"COMING SOON".split('').forEach((c,i)=>{const s=document.createElement('span');s.textContent=c===' '?'\u00A0':c;s.style.animationDelay=`${.8+i*.05}s`;se.appendChild(s)});
+
+const tls=['DESIGNER · DEVELOPER · DREAMER','CRAFTING DIGITAL EXPERIENCES','WHERE CODE MEETS CREATIVITY','BUILDING SOMETHING EXTRAORDINARY','PIXEL PERFECT · PERFORMANCE DRIVEN','TURNING IDEAS INTO REALITY'];
+const te=document.getElementById('tl2');let ti=0;
+tls.forEach((t,i)=>{const d=document.createElement('div');d.className='tlw'+(i===0?' act':'');d.textContent=t;te.appendChild(d)});
+setInterval(()=>{const w=te.querySelectorAll('.tlw');w[ti].classList.remove('act');w[ti].classList.add('ex');const pv=ti;ti=(ti+1)%tls.length;w[ti].classList.add('act');setTimeout(()=>w[pv].classList.remove('ex'),600)},3000);
+
+const qs=[{t:"A lesson without pain is meaningless. For you cannot gain something without sacrificing something in return.",s:"Fullmetal Alchemist: Brotherhood",c:"Edward Elric"},{t:"The world isn't perfect. But it's there for us, doing the best it can. That's what makes it so damn beautiful.",s:"Fullmetal Alchemist",c:"Roy Mustang"},{t:"If you don't take risks, you can't create a future.",s:"One Piece",c:"Monkey D. Luffy"},{t:"People's lives don't end when they die. It ends when they lose faith.",s:"Naruto Shippuden",c:"Itachi Uchiha"},{t:"Power comes in response to a need, not a desire.",s:"Dragon Ball Z",c:"Goku"},{t:"The only ones who should kill are those prepared to be killed.",s:"Code Geass",c:"Lelouch vi Britannia"},{t:"Whatever you lose, you'll find it again. But what you throw away you'll never get back.",s:"Rurouni Kenshin",c:"Kenshin Himura"},{t:"In this world, wherever there is light, there are also shadows.",s:"Naruto",c:"Madara Uchiha"},{t:"The night is darkest before the dawn. But I promise you, the dawn is coming.",s:"Attack on Titan",c:"Erwin Smith"},{t:"Believing in someone. That's what makes the real thing.",s:"Your Name",c:"Taki Tachibana"}];
+let qi=0;const qte=document.getElementById('qt'),qse=document.getElementById('qsr'),qce=document.getElementById('qc');
+function sq(){const q=qs[qi];qte.style.opacity=0;qte.style.transform='translateY(10px)';qse.style.opacity=0;qce.style.opacity=0;setTimeout(()=>{qte.textContent='"'+q.t+'"';qse.textContent='— '+q.s;qce.textContent=q.c;qte.style.opacity=1;qte.style.transform='translateY(0)';qse.style.opacity=1;qce.style.opacity=.6},600);qi=(qi+1)%qs.length}
+sq();setInterval(sq,7000);
+
+const kk=['ArrowUp','ArrowUp','ArrowDown','ArrowDown','ArrowLeft','ArrowRight','ArrowLeft','ArrowRight'];let ki=0;
+document.addEventListener('keydown',e=>{if(e.key===kk[ki]){ki++;if(ki===kk.length){ki=0;const b=document.getElementById('pb');b.style.opacity=1;b.style.animation='none';void b.offsetWidth;b.style.animation='pu 1.5s ease-out forwards';const bi=document.getElementById('pbi');bi.style.animation='none';void bi.offsetWidth;bi.style.animation='be 1.5s ease-out forwards';st('⚡ POWER LEVEL OVER 9000');for(let i=0;i<60;i++){const p=new P;p.x=pc.width/2;p.y=pc.height/2;p.sx=(Math.random()-.5)*10;p.sy=(Math.random()-.5)*10;p.sz=Math.random()*5+2;p.l=150;p.ml=150;pts.push(p)}setTimeout(()=>{b.style.opacity=0},1600)}}else ki=0});
+
+function st(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500)}
+
+let actx,isp=false,an=null;
+document.getElementById('st').addEventListener('click',()=>{const b=document.getElementById('st');if(!isp){actx=new(window.AudioContext||window.webkitAudioContext)();const o1=actx.createOscillator(),o2=actx.createOscillator(),g=actx.createGain(),f=actx.createBiquadFilter();o1.type='sine';o1.frequency.value=75;o2.type='sine';o2.frequency.value=112;f.type='lowpass';f.frequency.value=180;g.gain.value=0;o1.connect(f);o2.connect(f);f.connect(g);g.connect(actx.destination);o1.start();o2.start();g.gain.linearRampToValueAtTime(.035,actx.currentTime+2);const lfo=actx.createOscillator(),lg=actx.createGain();lfo.frequency.value=.08;lg.gain.value=12;lfo.connect(lg);lg.connect(o1.frequency);lfo.start();an={gain:g};isp=true;b.textContent='♫';b.style.color='var(--p)';b.style.borderColor='var(--p)'}else{if(an){an.gain.gain.linearRampToValueAtTime(0,actx.currentTime+1);setTimeout(()=>{actx.close();isp=false},1100)}b.textContent='♪';b.style.color='';b.style.borderColor=''}});
+
+document.addEventListener('click',e=>{for(let i=0;i<3;i++){const r=document.createElement('div');Object.assign(r.style,{position:'fixed',left:e.clientX+'px',top:e.clientY+'px',width:'4px',height:'4px',borderRadius:'50%',border:'1px solid '+['var(--p)','var(--s)','var(--a)'][i],pointerEvents:'none',zIndex:'9999',transform:'translate(-50%,-50%)',opacity:'0'});document.body.appendChild(r);r.animate([{width:'4px',height:'4px',opacity:.7},{width:(60+i*30)+'px',height:(60+i*30)+'px',opacity:0}],{duration:500+i*150,easing:'ease-out',delay:i*80});setTimeout(()=>r.remove(),800+i*150)}for(let i=0;i<5;i++){const p=new P;p.x=e.clientX;p.y=e.clientY;p.sx=(Math.random()-.5)*5;p.sy=(Math.random()-.5)*5;p.sz=Math.random()*3+1;p.l=50;p.ml=50;pts.push(p)}});
+</script>
+<style>@keyframes pu{0%{opacity:1}100%{opacity:0}}@keyframes be{0%{width:10px;height:10px;opacity:1;box-shadow:0 0 60px 30px var(--p)}100%{width:200vmax;height:200vmax;opacity:0;box-shadow:0 0 0 0 transparent}}</style>
+</body>
+</html>
